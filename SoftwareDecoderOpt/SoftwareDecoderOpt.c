@@ -40,19 +40,6 @@ void stepOne(char* fileLocation, int sumSignal[1023]) {
 		i++;
 	}
 	fclose(fp);
-
-	// char buf[10];
-	// FILE* fp;
-	// if(fopen_s(&fp,fileLocation, "r")!= 0 ){
-	// 	perror("File doesn't exists!");
-	// }
-	// int i = 0;
-	// while(fscanf_s(fp, "%s", buf) != EOF)
-	// {
-	// 	sumSignal[i] = atoi(buf);
-	// 	i++;
-	// }
-	// fclose(fp);
 }
 
 // ---Second Step---

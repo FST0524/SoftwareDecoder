@@ -31,23 +31,10 @@ void rotateArray(int* sequence, int seqLength)
 // ---First Step---
 // Zeitmessung(Eine Durchführung): 0ms
 void stepOne(char* fileLocation, int sumSignal[]) {
-	// FILE* fp = fopen(fileLocation, "r");
-	// char buf[10];
-	// int i = 0;
-	// while(fscanf(fp, "%s", buf) != EOF)
-	// {
-	// 	sumSignal[i] = atoi(buf);
-	// 	i++;
-	// }
-	// fclose(fp);
-
+	FILE* fp = fopen(fileLocation, "r");
 	char buf[10];
-	FILE* fp;
-	if(fopen_s(&fp,fileLocation, "r")!= 0 ){
-		perror("File doesn't exists!");
-	}
 	int i = 0;
-	while(fscanf_s(fp, "%s", buf) != EOF)
+	while(fscanf(fp, "%s", buf) != EOF)
 	{
 		sumSignal[i] = atoi(buf);
 		i++;
