@@ -6,13 +6,13 @@
 // Zeitmessung(Eine Durchführung): 0ms 
 void printResult(int result,int satID,int delta) {
 
-	if (result > 200)
+	if (result > 230)
 	{
-		printf("satellite %d has sent bit 1.(delta=%d)\n",satID+1,delta-1);
+		printf("satellite %d has sent bit 1.(delta=%d)\n",satID+1,delta);
 	}
-	else if (result < -200)
+	else if (result < -230)
 	{
-		printf("satellite %d has sent bit 0.(delta=%d)\n",satID+1,delta-1);
+		printf("satellite %d has sent bit 0.(delta=%d)\n",satID+1,delta);
 	}
 
 }
@@ -28,8 +28,6 @@ void rotateArray(int* sequence, int seqLength)
 	sequence[0] = lastElement;
 }
 
-// ---First Step---
-// Zeitmessung(Eine Durchführung): 0ms
 void stepOne(char* fileLocation, int sumSignal[]) {
 	FILE* fp = fopen(fileLocation, "r");
 	char buf[10];
@@ -66,8 +64,11 @@ void generateChipSequence(int xorValues[24][2], int chipSequences[24][1023], int
 	for(int j = 0; j < 1023; j++)
 	{
 		chipSequences[id][j] = (motherSequenceOne[9] ^ (motherSequenceTwo[xorValues[id][0]] ^ motherSequenceTwo[xorValues[id][1]]));
-		processMotherSequenceOne(motherSequenceOne);
-		processMotherSequenceTwo(motherSequenceTwo);
+		if(j != 1022){
+			processMotherSequenceOne(motherSequenceOne);
+			processMotherSequenceTwo(motherSequenceTwo);
+		}
+
 	}
 }
 

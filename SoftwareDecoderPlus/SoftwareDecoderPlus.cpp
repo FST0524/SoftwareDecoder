@@ -57,11 +57,11 @@ void generateChipSequence(Satellite &sat) {
 }
 
 void printResult(int result,int satID,int delta) {
-	if (result > 200)
+	if (result > 230)
 	{
 		std::cout << "satellite " << satID << " has sent bit " << "1" << ".(delta = " << delta << ")" << std::endl;
 	}
-	else if (result < -200)
+	else if (result < -230)
 	{
 		std::cout << "satellite " << satID << " has sent bit " << "0" << ".(delta = " << delta << ")" << std::endl;
 	}

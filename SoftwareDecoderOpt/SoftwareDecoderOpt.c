@@ -8,13 +8,13 @@ Info: Index beginnt bei 0 ist aber eig. um eins höher!!!
 */
 void printResult(int result,int satID,int delta) {
 
-	if (result > 200)
+	if (result > 230)
 	{
-		printf("satellite %d has sent bit 1.(delta=%d)\n",satID+1,delta+1);
+		printf("satellite %d has sent bit 1.(delta=%d)\n",satID+1,delta);
 	}
-	else if (result < -200)
+	else if (result < -230)
 	{
-		printf("satellite %d has sent bit 0.(delta=%d)\n",satID+1,delta+1);
+		printf("satellite %d has sent bit 0.(delta=%d)\n",satID+1,delta);
 	}
 
 }
@@ -40,6 +40,19 @@ void stepOne(char* fileLocation, int sumSignal[1023]) {
 		i++;
 	}
 	fclose(fp);
+
+	// char buf[10];
+	// FILE* fp = fopen(fileLocation,buf);
+	// if(fopen_s(&fp,fileLocation, "r")!= 0 ){
+	// 	perror("File doesn't exists!");
+	// }
+	// int i = 0;
+	// while(fscanf_s(fp, "%s", buf) != EOF)
+	// {
+	// 	sumSignal[i] = atoi(buf);
+	// 	i++;
+	// }
+	// fclose(fp);
 }
 
 // ---Second Step---
@@ -60,13 +73,15 @@ void generateChipSequence(int id, int chipSequences[24][2046], const int xorValu
 	int motherSequenceTwo[10] = { 1,1,1,1,1,1,1,1,1,1 };
 	register unsigned j = 0;
 	
-	for(j = 0; j != 1022; ++j)
+	for(j = 0; j != 1023; ++j)
 	{
 		int value = (motherSequenceOne[9] ^ (motherSequenceTwo[xorValues[id][0]] ^ motherSequenceTwo[xorValues[id][1]]));
 		chipSequences[id][j] = value;
 		chipSequences[id][1023+j] = value;
-		processMotherSequenceOne(motherSequenceOne);
-		processMotherSequenceTwo(motherSequenceTwo);
+		if(j != 1022){
+			processMotherSequenceOne(motherSequenceOne);
+			processMotherSequenceTwo(motherSequenceTwo);
+		}
 	}
 }
 
@@ -77,9 +92,9 @@ void stepTwo(const int xorValues[24][2],int sumSignal[1023],int chipSequences[24
 	register int result = 0;
 	for (i = 0; i != 23; i++) {
 		generateChipSequence(i,chipSequences,xorValues);
-		for (delta = 0; delta != 1022; ++delta) {
+		for (delta = 0; delta != 1023; ++delta) {
 		 	result = 0;
-		 	for (calc = 0; calc != 1022; ++calc) {
+		 	for (calc = 0; calc != 1023; ++calc) {
 		 		result += chipSequences[i][calc+delta] * sumSignal[calc];
 			}
 		 	printResult(result, i, delta);  
@@ -100,7 +115,7 @@ int main(int argc, char** argv)
 
 		stepOne(fileLocation, sumSignal);
 		stepTwo(xorValues,sumSignal, chipSequences);
-
+	
 		stop = clock();
 		printf("%.0f Milliseconds\n", ((double)(stop - start) / CLOCKS_PER_SEC) * 1000);
 		return 0;
